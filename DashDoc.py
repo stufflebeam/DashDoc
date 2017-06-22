@@ -31,6 +31,8 @@ class DashDocCommand(sublime_plugin.TextCommand):
         global_settings = sublime.load_settings('DashDoc.sublime-settings')
         settings  = self.view.settings()
 
+        print ("flip_syntax_sensitive: {} \nrun_in_background: {}".format(flip_syntax_sensitive,run_in_background))
+
         # syntax sensitivity is the default
         syntax_sensitive_as_default = \
             settings.get('syntax_sensitive_as_default',
@@ -61,7 +63,10 @@ class DashDocCommand(sublime_plugin.TextCommand):
                 url = 'dash-plugin://keys=%s^&query=%s%s' % (','.join(keys), quote(query), background_string)
             else:
                 url = 'dash-plugin://query=%s%s' % (quote(query), background_string)
+            print ("url: {}".format(url))
             subprocess.call(['start', url], shell=True)
         else:
+            url = 'dash-plugin://keys=%s&query=%s%s' % (','.join(keys), quote(query), background_string)
+            print ("url: {}".format(url))
             subprocess.call(['/usr/bin/open', '-g',
                          'dash-plugin://keys=%s&query=%s%s' % (','.join(keys), quote(query), background_string)])
